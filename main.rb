@@ -3,9 +3,10 @@ require_relative "link"
 require_relative "memo"
 require_relative "task"
 
+puts "Блокнот: 2-я версия с sqlite"
 puts "Что хотите записать в блокнот?"
 
-choices = Post.post_types
+choices = Post.post_types.keys
 choice = -1
 
 until choice >= 0 && choice <= choices.size
@@ -15,10 +16,8 @@ until choice >= 0 && choice <= choices.size
   choice = STDIN.gets.to_i
 end
 
-entry = Post.create(choice)
-
+entry = Post.create(choices[choice])
 entry.read_from_console
+id = entry.save_to_db
 
-entry.save
-
-puts "Запись сохранена."
+puts "Запись сохранена. id = #{id}"
